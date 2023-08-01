@@ -1,8 +1,8 @@
 import os
 from multiprocessing import Pool, cpu_count
 import pandas as pd
-from main import get_date_list, COLS
-from const import RAW_PATH
+from const import RAW_PATH, COLS
+from utils import get_date_list
 
 topics = [
     'WB_678_DIGITAL_GOVERNMENT',

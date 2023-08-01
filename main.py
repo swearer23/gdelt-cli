@@ -1,26 +1,12 @@
 import os
-from datetime import datetime, timedelta
 import time
 import warnings
 import re
 from io import BytesIO
 import requests
 import pandas as pd
-from const import RAW_PATH
-
-COLS = ['GKGRECORDID', 'DATE', 'SourceCollectionIdentifier', 'SourceCommonName', 'DocumentIdentifier', 'Counts', 'V2Counts', 'Themes', 'V2Themes', 'Locations', 'V2Locations', 'Persons', 'V2Persons', 'Organizations', 'V2Organizations', 'V2Tone', 'Dates', 'GCAM', 'SharingImage', 'RelatedImages', 'SocialImageEmbeds', 'SocialVideoEmbeds', 'Quotations', 'AllNames', 'Amounts', 'TranslationInfo', 'Extras']
-
-# 获取从开始时间到结束时间，每隔15分钟的所有时间列表
-def get_date_list(start_date, end_date):
-    date_list = []
-    begin_date = datetime.strptime(start_date, "%Y%m%d")
-    end_date = datetime.strptime(end_date, "%Y%m%d")
-    while begin_date < end_date:
-        date_str = begin_date.strftime("%Y%m%d%H%M%S")
-        date_list.append(date_str)
-        begin_date += timedelta(minutes=15)
-    return date_list
-
+from const import RAW_PATH, COLS
+from utils import get_date_list
 
 # 根据日期列表，生成对应的url列表 url 格式为 http://data.gdeltproject.org/gkg/20230730.gkg.csv.zip
 
