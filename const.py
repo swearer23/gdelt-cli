@@ -1,0 +1,1 @@
+RAW_PATH = '/mnt/d/gdelt-raw/'

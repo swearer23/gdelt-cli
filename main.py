@@ -6,6 +6,7 @@ import re
 from io import BytesIO
 import requests
 import pandas as pd
+from const import RAW_PATH
 
 COLS = ['GKGRECORDID', 'DATE', 'SourceCollectionIdentifier', 'SourceCommonName', 'DocumentIdentifier', 'Counts', 'V2Counts', 'Themes', 'V2Themes', 'Locations', 'V2Locations', 'Persons', 'V2Persons', 'Organizations', 'V2Organizations', 'V2Tone', 'Dates', 'GCAM', 'SharingImage', 'RelatedImages', 'SocialImageEmbeds', 'SocialVideoEmbeds', 'Quotations', 'AllNames', 'Amounts', 'TranslationInfo', 'Extras']
 
@@ -49,10 +50,8 @@ def retry_get(url, retry=5):
         raise e
     
 def check_if_exists(url):
-    path = os.path.split(os.path.abspath(__file__))[0] + os.sep  # 获取当前文件所在目录
-    data_folder = path + 'raw' + os.sep
     filename = re.search('[0-9]{4,18}', url).group()
-    filepath = os.path.join(data_folder, filename + '.csv')
+    filepath = os.path.join(RAW_PATH, filename + '.csv')
     # 检查URL对应的文件是否已经存储在本地
     if os.path.exists(filepath) or os.path.exists(filepath[:-4]):  # 若文件已下载，则跳过
         print('%s已存在' % filename)
@@ -80,7 +79,7 @@ def download_data(url):
     print(frame['V2Locations'])
     buffer.flush()
     buffer.close()
-    frame.to_csv(f'/mnt/d/gdelt-raw/{re.search("[0-9]{4,18}", url).group()}.csv')
+    frame.to_csv(f'{RAW_PATH}{re.search("[0-9]{4,18}", url).group()}.csv')
 
 if __name__ == '__main__':
   datelist = get_date_list('20211212', '20230613')

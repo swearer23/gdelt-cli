@@ -2,6 +2,7 @@ import os
 from multiprocessing import Pool, cpu_count
 import pandas as pd
 from main import get_date_list, COLS
+from const import RAW_PATH
 
 topics = [
     'WB_678_DIGITAL_GOVERNMENT',
@@ -63,5 +64,5 @@ def main(filename):
 init_filtered_csv()
 datelist = get_date_list('20230101', '20230201')
 pool = Pool(cpu_count())
-pool.map(main, [f'/mnt/d/gdelt-raw/{date}.csv' for date in datelist])
+pool.map(main, [f'{RAW_PATH}{date}.csv' for date in datelist])
 
